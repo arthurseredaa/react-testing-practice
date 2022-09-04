@@ -1,23 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from "react";
+
+import "./App.css";
 
 function App() {
+  const [toggle, setToggle] = useState(false);
+  const [data, setData] = useState(false);
+  const [value, setValue] = useState("");
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setData(true);
+    }, 100);
+
+    return () => clearTimeout(timeout);
+  }, []);
+
+  const handleClick = () => setToggle(!toggle);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Hello world!</h1>
+      {toggle && <div data-testid="toggle">toggle</div>}
+      {data && <div>data</div>}
+      {value && <p data-testid="controlled-paragraph">{value}</p>}
+
+      <button data-testid="button-toggle" onClick={handleClick}>
+        click
+      </button>
+      <input
+        type="text"
+        placeholder="type something"
+        onChange={(e) => setValue(e.target.value)}
+        data-testid="controlled-input"
+      />
     </div>
   );
 }
